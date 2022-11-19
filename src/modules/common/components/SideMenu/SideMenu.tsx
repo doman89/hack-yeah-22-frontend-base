@@ -25,7 +25,7 @@ const SideBar = styled(
   "div",
   {},
 )<{ isActive: boolean }>(({ isActive, theme }) => ({
-  zIndex: 100,
+  zIndex: 1000,
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-end",

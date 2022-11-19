@@ -18,7 +18,7 @@ export default function MapPage() {
   }
 
   return (
-    <Box sx={{ maxWidth: "100%", width: "100%", maxHeight: "100%", height: "100vh" }}>
+    <Box sx={{ m: -4 }}>
       <MapContainer
         style={{ height: "100vh" }}
         center={coords ? [coords?.latitude, coords?.longitude] : [0, 0]}
