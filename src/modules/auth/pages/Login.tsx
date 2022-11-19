@@ -1,4 +1,4 @@
-import { Button, Paper } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import { useForm, FormProvider } from "react-hook-form";
 import { FormInput } from "../../common/components/FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,16 +24,24 @@ export default function LoginPage() {
     resolver: yupResolver(validationSchema),
   });
 
-  const { formState, handleSubmit } = form;
+  const { handleSubmit } = form;
 
   const handleFormSubmit = (data: any) => {
     console.log(data);
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        padding: 3,
+      }}
+    >
       <FormProvider {...form}>
-        <Paper>
+        <Paper
+          sx={{
+            p: 3,
+          }}
+        >
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <FormInput<LoginForm> formValueName="email" label="Email" />
             <FormInput<LoginForm> formValueName="password" label="Password" />
@@ -41,6 +49,6 @@ export default function LoginPage() {
           </form>
         </Paper>
       </FormProvider>
-    </div>
+    </Box>
   );
 }
