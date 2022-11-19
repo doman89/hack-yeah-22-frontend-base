@@ -14,6 +14,7 @@ import { AppBar } from "./modules/common/components/AppBar/AppBar";
 import { SideMenuProvider } from "./modules/common/context/SideMenu";
 import { SideMenu } from "./modules/common/components/SideMenu/SideMenu";
 import MapPage from "./modules/map/pages/MapPage";
+import RegisterPage from "./modules/auth/pages/Registration";
 
 export const App = () => (
   <BrowserRouter>
@@ -45,6 +46,7 @@ export const App = () => (
             <Routes>
               <Route element={<LoginPage />} path="/login" />
               <Route element={<MapPage />} path="/map" />
+              <Route element={<RegisterPage />} path="/register" />
             </Routes>
           </Content>
         </Layout>

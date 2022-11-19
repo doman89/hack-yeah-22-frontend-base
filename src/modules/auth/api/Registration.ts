@@ -12,7 +12,7 @@ const extendedApi = api.injectEndpoints({
   endpoints: build => ({
     registerUser: build.mutation<PostRegistrationQueryResponse, PostRegistrationQuery>({
       query: body => ({
-        url: "/registration",
+        url: "/register",
         method: "POST",
         body,
       }),

@@ -8,8 +8,8 @@ export function SideMenu() {
 
   return (
     <SideBar isActive={isSideMenuActive}>
-      <SideMenuButton component={Link} to="/empty">
-        Pusta strona
+      <SideMenuButton component={Link} to="/register">
+        Rejestracja uzytkownika
       </SideMenuButton>
       <SideMenuButton component={Link} to="/login">
         Strona logowania

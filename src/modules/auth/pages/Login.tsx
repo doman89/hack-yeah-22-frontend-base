@@ -4,6 +4,7 @@ import { FormInput } from "../../common/components/FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
+import { useAuthenticateUserMutation } from "../api/Token";
 
 const validationSchema = yup.object().shape({
   email: yup.string().max(255).nullable().required().email(),
@@ -16,6 +17,7 @@ type LoginForm = {
 };
 
 export default function LoginPage() {
+  const [loginUser, { isLoading, isError }] = useAuthenticateUserMutation();
   const form = useForm<LoginForm>({
     defaultValues: {
       email: "",
@@ -26,8 +28,10 @@ export default function LoginPage() {
 
   const { handleSubmit } = form;
 
-  const handleFormSubmit = (data: any) => {
-    console.log(data);
+  const handleFormSubmit = async (data: LoginForm) => {
+    const result = await loginUser(data);
+
+    console.log(result);
   };
 
   return (
