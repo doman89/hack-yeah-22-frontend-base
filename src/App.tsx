@@ -13,6 +13,7 @@ import LoginPage from "./modules/auth/pages/Login";
 import { AppBar } from "./modules/common/components/AppBar/AppBar";
 import { SideMenuProvider } from "./modules/common/context/SideMenu";
 import { SideMenu } from "./modules/common/components/SideMenu/SideMenu";
+import MapPage from "./modules/map/pages/MapPage";
 
 export const App = () => (
   <BrowserRouter>
@@ -43,6 +44,7 @@ export const App = () => (
           <Content>
             <Routes>
               <Route element={<LoginPage />} path="/login" />
+              <Route element={<MapPage />} path="/map" />
             </Routes>
           </Content>
         </Layout>
