@@ -26,9 +26,17 @@ export function FormInput<T extends FieldValues>({
 
   const { onChange, value, ...fieldRest } = field;
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: 100,
+        padding: 1,
+      }}
+    >
       {label ? <Typography>{label}</Typography> : null}
       <Input
+        sx={{}}
         {...fieldRest}
         disabled={isDisabled}
         error={isError}

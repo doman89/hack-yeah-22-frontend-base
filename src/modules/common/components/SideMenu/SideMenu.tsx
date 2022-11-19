@@ -42,10 +42,13 @@ const SideBar = styled(
   }),
 
   [theme.breakpoints.up("sm")]: {
-    right: 200,
+    right: 0,
     left: "unset",
+    top: 60,
+    visibility: "visible",
     justifyContent: "flex-start",
     ...(isActive && {
+      visibility: "hidden",
       transform: "translateX(100%)",
       boxShadow: "0 1px 4px rgb(0 0 0 / 16%), 3px 0px 3px 1px rgb(163 38 123 / 50%)",
     }),
