@@ -42,7 +42,7 @@ export const App = () => (
           </SideMenuProvider>
           <Content>
             <Routes>
-              <Route element={<LoginPage />} path="/" />
+              <Route element={<LoginPage />} path="/login" />
             </Routes>
           </Content>
         </Layout>
