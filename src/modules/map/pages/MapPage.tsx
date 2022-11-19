@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
-  const positions = [
+  const positions: [number, number][] = [
     [50.0647, 19.945],
-    [50.0647, 19.942],
+    [50.0647, 18.942],
   ];
 
   console.log(coords);
@@ -30,7 +30,20 @@ export default function MapPage() {
         zoom={13}
         scrollWheelZoom
       >
-        <Marker position={[50.0647, 19.945]}></Marker>
+        <>
+          {[
+            [50.0647, 19.945],
+            [50.0647, 18.942],
+          ].map(coords => (
+            <Marker key={coords.toString()} position={coords as any}>
+              <Popup>
+                <span>
+                  This is food marker <br /> Go there to get food.
+                </span>
+              </Popup>
+            </Marker>
+          ))}
+        </>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
