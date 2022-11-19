@@ -1,18 +1,44 @@
-import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { default as bemCssModules } from "bem-css-modules";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { Provider as ReduxProvider } from "react-redux";
+import { toast, ToastContainer, ToastContainerProps } from "react-toastify";
+import { ThemeProvider } from "styled-components";
+import { createTheme } from "@mui/material/styles";
 
-import { store } from "./stores/store";
+import { store } from "./modules/common/store";
 
 import "./App.css";
-
-bemCssModules.setSettings({
-  modifierDelimiter: "--",
-  throwOnError: true,
-});
+import LoginPage from "./modules/auth/pages/Login";
 
 export const App = () => (
-  <Provider store={store}>
-    <div className="app">hello world</div>
-  </Provider>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Helmet
+        defaultTitle="Course about everything for everyone"
+        titleTemplate="%s - Coursopedia"
+      />
+      <ReduxProvider store={store}>
+        <ToastContainer
+          autoClose={5000}
+          className="toast-container"
+          closeButton={false}
+          closeOnClick={false}
+          draggable={false}
+          limit={5}
+          position={toast.POSITION.BOTTOM_RIGHT}
+          hideProgressBar
+          newestOnTop
+          pauseOnFocusLoss
+          pauseOnHover
+        />
+        <div className="layout">
+          <Routes>
+            <Route element={<LoginPage />} path="/" />
+          </Routes>
+        </div>
+      </ReduxProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 );
+
+const theme = createTheme();

@@ -17,12 +17,6 @@ module.exports = {
               },
             },
           },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true,
-            },
-          },
         ],
       },
       {
@@ -41,12 +35,6 @@ module.exports = {
               modules: {
                 localIdentName: "[local]",
               },
-            },
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true,
             },
           },
         ],
