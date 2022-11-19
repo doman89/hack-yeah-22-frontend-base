@@ -17,7 +17,7 @@ export function BurgerMenuButton({
       aria-controls={controlledElementId}
       aria-expanded={isActive}
       aria-label="show navigation menu"
-      className={isActive ? "active" : undefined}
+      className={isActive ? undefined : "active"}
       type="button"
       onClick={onClick}
       disableRipple

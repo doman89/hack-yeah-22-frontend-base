@@ -12,7 +12,7 @@ type SideMenuProviderProps = {
 const SideMenuCtx = createContext<SideMenuContext | null>(null);
 
 export function SideMenuProvider({ children }: SideMenuProviderProps) {
-  const [isSideMenuActive, setIsSideMenuActive] = useState(false);
+  const [isSideMenuActive, setIsSideMenuActive] = useState(true);
 
   const toggleSideMenu = (state?: boolean) => {
     setIsSideMenuActive(prev => state ?? !prev);

@@ -14,6 +14,9 @@ export function SideMenu() {
       <SideMenuButton component={Link} to="/login">
         Strona logowania
       </SideMenuButton>
+      <SideMenuButton component={Link} to="/map">
+        Google Map
+      </SideMenuButton>
     </SideBar>
   );
 }
