@@ -4,6 +4,6 @@ const TAGS = {};
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://3.73.125.250:8000/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://hackyeah.dev.volt.io/api" }),
   endpoints: () => ({}),
 });

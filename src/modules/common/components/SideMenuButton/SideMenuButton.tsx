@@ -1,5 +1,6 @@
 import { ElementType, ReactNode } from "react";
 import styled from "styled-components";
+import { useSideMenuContext } from "../../context/SideMenu";
 
 export type SideMenuButtonProps = {
   children?: ReactNode;
@@ -8,9 +9,21 @@ export type SideMenuButtonProps = {
   onClick?(event: MouseEvent): void;
 };
 
-export function SideMenuButton({ children, component, ...restProps }: SideMenuButtonProps) {
+export function SideMenuButton({
+  children,
+  component,
+  onClick,
+  ...restProps
+}: SideMenuButtonProps) {
+  const { toggleSideMenu } = useSideMenuContext();
+
+  const handleClick = (event: MouseEvent) => {
+    toggleSideMenu();
+    onClick?.(event);
+  };
+
   return (
-    <Wrapper as={component} {...restProps}>
+    <Wrapper as={component} {...restProps} onClick={handleClick}>
       <FlexCenter>{children}</FlexCenter>
     </Wrapper>
   );
