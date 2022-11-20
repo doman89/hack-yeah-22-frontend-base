@@ -26,7 +26,7 @@ type GetAdvertisementQuery = {
   id: string;
 };
 
-type GetAdvertisementQueryResponse = {
+export type GetAdvertisementQueryResponse = {
   id: number;
   lat: number;
   lng: number;
@@ -39,19 +39,13 @@ type GetAdvertisementQueryResponse = {
 
 type GetAdvertisementsQuery = {
   page: number;
-  latBetween: string;
   latGt: string;
-  latGte: string;
   latLt: string;
-  latLte: string;
-  lngBetween: string;
   lngGt: string;
-  lngGte: string;
   lngLt: string;
-  lngLte: string;
 };
 
-type GetAdvertisementsQueryResponse = GetAdvertisementQueryResponse[];
+export type GetAdvertisementsQueryResponse = GetAdvertisementQueryResponse[];
 
 const extendedApi = api.injectEndpoints({
   endpoints: build => ({
@@ -69,21 +63,10 @@ const extendedApi = api.injectEndpoints({
       }),
     }),
     getAdvertisements: build.query<GetAdvertisementsQueryResponse, GetAdvertisementsQuery>({
-      query: ({
-        page,
-        latBetween,
-        latGt,
-        latGte,
-        latLt,
-        latLte,
-        lngBetween,
-        lngGt,
-        lngGte,
-        lngLt,
-        lngLte,
-      }) => ({
-        url: `/api/advertisements?page=${page}&lat[Between]=${latBetween}&lat[gt]=${latGt}&lat[gte]=${latGte}&lat[lt]=${latLt}&lat[lte]=${latLte}&lng[between]=${lngBetween}&lng[gt]=${lngGt}&lng[gte]=${lngGte}&lng[lt]=${lngLt}&lng[lte]=${lngLte}`,
+      query: ({ page, latGt, latLt, lngGt, lngLt }) => ({
+        url: `/api/advertisements?page=${page}&lat[gt]=${latGt}&lat[lt]=${latLt}&lng[gt]=${lngGt}&lng[lt]=${lngLt}`,
         method: "GET",
+        headers: { "Content-Type": "application/json" },
       }),
     }),
   }),
