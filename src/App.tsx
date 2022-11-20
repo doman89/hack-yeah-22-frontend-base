@@ -16,6 +16,7 @@ import { SideMenu } from "./modules/common/components/SideMenu/SideMenu";
 import MapPage from "./modules/map/pages/MapPage";
 import RegisterPage from "./modules/auth/pages/Registration";
 import AddAdvertisementPage from "./modules/advertisement/pages/AddAdvertisement";
+import { MapSwitcherProvider } from "./modules/common/context/MapSwitcher";
 
 export const App = () => (
   <BrowserRouter>
@@ -39,18 +40,20 @@ export const App = () => (
           pauseOnHover
         />
         <Layout>
-          <SideMenuProvider>
-            <AppBar />
-            <SideMenu />
-          </SideMenuProvider>
-          <Content>
-            <Routes>
-              <Route element={<LoginPage />} path="/login" />
-              <Route element={<MapPage />} path="/map" />
-              <Route element={<RegisterPage />} path="/register" />
-              <Route element={<AddAdvertisementPage />} path="/advertisement" />
-            </Routes>
-          </Content>
+          <MapSwitcherProvider>
+            <SideMenuProvider>
+              <AppBar />
+              <SideMenu />
+            </SideMenuProvider>
+            <Content>
+              <Routes>
+                <Route element={<LoginPage />} path="/login" />
+                <Route element={<MapPage />} path="/map" />
+                <Route element={<RegisterPage />} path="/register" />
+                <Route element={<AddAdvertisementPage />} path="/advertisement" />
+              </Routes>
+            </Content>
+          </MapSwitcherProvider>
         </Layout>
       </ReduxProvider>
     </ThemeProvider>

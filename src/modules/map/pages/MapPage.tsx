@@ -25,7 +25,7 @@ export default function MapPage() {
   return (
     <Box sx={{ m: -4 }}>
       <MapContainer
-        style={{ height: "100vh" }}
+        style={{ height: "calc(100vh - 50px)" }}
         center={coords ? [coords?.latitude, coords?.longitude] : [0, 0]}
         zoom={13}
         scrollWheelZoom
