@@ -39,7 +39,7 @@ const SideBar = styled(
   width: "calc(100vw - 40px)",
   maxWidth: 300,
   backgroundColor: "#222222",
-  transition: "0.3s",
+  transition: "ease-in-out 0.3s",
   transform: "translateX(calc(-100%))",
 
   ...(isActive && {

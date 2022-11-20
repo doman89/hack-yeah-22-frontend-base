@@ -8,6 +8,10 @@ import { useAuthenticateUserMutation } from "../api/Token";
 import { Header } from "../../common/components/Header/Header";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { store } from "../../common/store";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../../reducers/authReducer";
+import { boolean } from "yup/lib/locale";
 
 const validationSchema = yup.object().shape({
   email: yup.string().max(255).nullable().required().email(),
@@ -21,6 +25,7 @@ type LoginForm = {
 
 export default function LoginPage() {
   const [loginUser, { isLoading, isError }] = useAuthenticateUserMutation();
+  const dispatch = useDispatch();
   const form = useForm<LoginForm>({
     defaultValues: {
       email: "",
@@ -35,11 +40,13 @@ export default function LoginPage() {
     const result = await loginUser(data);
     if (isApiResponse(result)) {
         toast("Zalogowano pomyślnie.");
+        dispatch(setToken(result.data));
         // @TODO dodać przekierowanie po logowaniu
         return;
     }
     toast("Błędne dane logowania.");
 
+    console.log(result);
   };
 
   return (
