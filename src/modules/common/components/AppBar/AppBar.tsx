@@ -16,14 +16,14 @@ export function AppBar() {
 const Wrapper = styled("div")(({ theme }) => ({
   gridArea: "app-bar",
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "row-reverse",
   alignItems: "center",
   width: "100%",
   padding: theme.spacing(1, 2),
   backgroundColor: "#222222",
 
   [theme.breakpoints.up("sm")]: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     padding: theme.spacing(1, 4),
   },
 }));
