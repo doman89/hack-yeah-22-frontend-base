@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
 import { useAuthenticateUserMutation } from "../api/Token";
-import {Header} from "../../common/components/Header/Header";
+import { Header } from "../../common/components/Header/Header";
 
 const validationSchema = yup.object().shape({
   email: yup.string().max(255).nullable().required().email(),
@@ -39,10 +39,10 @@ export default function LoginPage() {
     <Box
       sx={{
         padding: 3,
-        width:"100%",
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <FormProvider {...form}>
@@ -54,10 +54,17 @@ export default function LoginPage() {
           <Header label={"Logowanie"}></Header>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <FormInput<LoginForm> formValueName="email" width={300} label="Email" />
-            <FormInput<LoginForm> formValueName="password" width={300} label="Password" />
+            <FormInput<LoginForm>
+              formValueName="password"
+              width={300}
+              label="Password"
+              type="password"
+            />
 
-            <Box sx={{width:"100%", display:"flex", flexDirection:"row-reverse"}}>
-              <Button type="submit" sx={{marginTop: "10px"}}>Zaloguj</Button>
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
+              <Button type="submit" sx={{ marginTop: "10px" }}>
+                Zaloguj
+              </Button>
             </Box>
           </form>
         </Paper>

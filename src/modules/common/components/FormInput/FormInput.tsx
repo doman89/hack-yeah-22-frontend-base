@@ -8,7 +8,8 @@ type FormInputProps<T> = {
   formValueName: Path<T>;
   label?: ReactNode;
   placeholder?: string;
-  width?: number
+  width?: number;
+  type?: string;
 };
 
 export function FormInput<T extends FieldValues>({
@@ -17,6 +18,7 @@ export function FormInput<T extends FieldValues>({
   label,
   placeholder,
   width,
+  type,
 }: FormInputProps<T>) {
   const { control } = useFormContext<T>();
   const { field, formState } = useController({
@@ -44,6 +46,7 @@ export function FormInput<T extends FieldValues>({
         error={isError}
         value={field.value}
         placeholder={placeholder}
+        type={type}
         onChange={event => {
           const {
             currentTarget: { value },
