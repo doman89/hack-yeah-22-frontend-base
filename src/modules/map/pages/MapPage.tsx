@@ -3,8 +3,10 @@ import { Box, Button } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { Coords, useMapSwitcherContext } from "../../common/context/MapSwitcher";
 import { useGetAdvertisementsQuery } from "../../advertisement/api/advertisements";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "../../common/components/Header/Header";
+import { useSelector } from "react-redux";
+import { RootState } from "../../common/store";
 import _ from "lodash";
 
 export default function MapPage() {
@@ -26,6 +28,14 @@ export default function MapPage() {
         !visibleCoords._southWest.lng,
     },
   );
+  const navigate = useNavigate();
+  const bearerToken = useSelector((state: RootState) => state.authReducer.authUser.token);
+
+  useEffect(() => {
+    if (!bearerToken) {
+      navigate("/login");
+    }
+  }, [bearerToken]);
 
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition(
@@ -87,10 +97,11 @@ function Preview() {
   });
 
   if (!data || isLoading) {
-     return <p>Ładowanie...</p>
+    return <p>Ładowanie...</p>;
   }
 
-  return <Box
+  return (
+    <Box
       sx={{
         padding: 3,
         width: "100%",
@@ -98,26 +109,44 @@ function Preview() {
         alignItems: "center",
         justifyContent: "center",
       }}
-  >
-    <ul>
-      {data.map(function (element) {
-        return <li key={element.id}>
-          <Link to={`/advertisements/${element.id}`}>
-              <h2 style={{padding: "6px 6px 3px 3px", fontSize: "15px", margin: "10px 0 2px 0"}}>{element.description}</h2>
-          </Link>
-          {element.food.map(function (food) {
-            return <div style={{display: "flex", borderBottom: "solid 1px #cccccc", padding: "10px 2px 5px 5px"}}>
-              <img src={food.image} style={{maxWidth:50}}  width={"100%"}/>
-              <div style={{display:"flex", flexDirection:"column", padding: "5px 0px 2px 3px", borderLeft: "solid 1px #cccccc"}}>
-                <h2>{food.name}</h2>
-                <p>{food.description}</p>
-              </div>
-            </div>
-          })}
-        </li>
-      })}
-    </ul>
-  </Box>
+    >
+      <ul>
+        {data.map(function (element) {
+          return (
+            <li key={element.id}>
+              <Link to={`/advertisements/${element.id}`}>
+                  <h2 style={{padding: "6px 6px 3px 3px", fontSize: "15px", margin: "10px 0 2px 0"}}>{element.description}</h2>
+              </Link>
+              {element.food.map(function (food) {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      borderBottom: "solid 1px #cccccc",
+                      padding: "10px 2px 5px 5px",
+                    }}
+                  >
+                    <img src={food.image} style={{ maxWidth: 50 }} width={"100%"} />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        padding: "5px 0px 2px 3px",
+                        borderLeft: "solid 1px #cccccc",
+                      }}
+                    >
+                      <h2>{food.name}</h2>
+                      <p>{food.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </li>
+          );
+        })}
+      </ul>
+    </Box>
+  );
 }
 
 function MapElements() {

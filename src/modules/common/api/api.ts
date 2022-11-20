@@ -8,7 +8,7 @@ export const api = createApi({
     baseUrl: "https://hackyeah.dev.volt.io/",
     prepareHeaders: (headers, { getState }) => {
       const states: any = getState();
-      headers.set("authorization", states.authReducer.authUser.token);
+      headers.set("authorization", `Bearer ${states.authReducer.authUser.token}`);
 
       return headers;
     },
