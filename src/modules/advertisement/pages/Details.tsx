@@ -71,7 +71,7 @@ function Meal({ available, name, description, image, reserved, id }: Food) {
             Zarezerwuj
           </Button>
         ) : (
-          <Typography>Nie dostępne juz</Typography>
+          <Typography sx={{color: "#cccccc"}}>Nie dostępne juz</Typography>
         )}
       </>
 
