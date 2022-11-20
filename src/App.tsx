@@ -15,6 +15,7 @@ import { SideMenuProvider } from "./modules/common/context/SideMenu";
 import { SideMenu } from "./modules/common/components/SideMenu/SideMenu";
 import MapPage from "./modules/map/pages/MapPage";
 import RegisterPage from "./modules/auth/pages/Registration";
+import AddAdvertisementPage from "./modules/advertisement/pages/AddAdvertisement";
 
 export const App = () => (
   <BrowserRouter>
@@ -47,6 +48,7 @@ export const App = () => (
               <Route element={<LoginPage />} path="/login" />
               <Route element={<MapPage />} path="/map" />
               <Route element={<RegisterPage />} path="/register" />
+              <Route element={<AddAdvertisementPage />} path="/advertisement" />
             </Routes>
           </Content>
         </Layout>

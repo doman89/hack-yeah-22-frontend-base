@@ -17,6 +17,9 @@ export function SideMenu() {
       <SideMenuButton component={Link} to="/map">
         Google Map
       </SideMenuButton>
+      <SideMenuButton component={Link} to="/advertisement">
+        Advertisement
+      </SideMenuButton>
     </SideBar>
   );
 }
