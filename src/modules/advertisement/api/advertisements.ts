@@ -55,4 +55,4 @@ const extendedApi = api.injectEndpoints({
   }),
 });
 
-export const { usePostAdvertisementMutation } = extendedApi;
+export const { usePostAdvertisementMutation, useGetAdvertisementQuery } = extendedApi;
