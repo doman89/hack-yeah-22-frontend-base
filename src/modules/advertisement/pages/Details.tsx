@@ -6,13 +6,14 @@ import { Header } from "../../common/components/Header/Header";
 
 import { Food, useGetAdvertisementQuery } from "../api/advertisements";
 import { useReserveFoodMutation } from "../api/Reservation";
+import { Zapierdalacz } from "../../common/components/Zapierdalacz/Zapierdalacz";
 
 export default function DetailsPage() {
   const { id } = useParams();
   const { data, isLoading } = useGetAdvertisementQuery({ id: id?.toString() ?? "" });
 
   if (isLoading || !data) {
-    return <p>"Kolejne fancy ładowanie..."</p>;
+    return <Zapierdalacz/>;
   }
 
   return (

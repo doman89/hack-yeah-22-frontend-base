@@ -8,6 +8,7 @@ import { Header } from "../../common/components/Header/Header";
 import { useSelector } from "react-redux";
 import { RootState } from "../../common/store";
 import _ from "lodash";
+import { Zapierdalacz } from "../../common/components/Zapierdalacz/Zapierdalacz";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -45,7 +46,7 @@ export default function MapPage() {
   }, []);
 
   if (coords === null) {
-    return <p>"Tutaj powinien być fancy loading state no ale to MVP :)"</p>;
+    return <Zapierdalacz/>;
   }
 
   if (!isMapActive) {
@@ -97,7 +98,7 @@ function Preview() {
   });
 
   if (!data || isLoading) {
-    return <p>Ładowanie...</p>;
+      return <Zapierdalacz/>;
   }
 
   return (
