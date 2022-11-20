@@ -1,8 +1,11 @@
-import { Box, Paper } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Header } from "../../common/components/Header/Header";
 
-import { useGetAdvertisementQuery } from "../api/advertisements";
+import { Food, useGetAdvertisementQuery } from "../api/advertisements";
+import { useReserveFoodMutation } from "../api/Reservation";
 
 export default function DetailsPage() {
   const { id } = useParams();
@@ -27,8 +30,50 @@ export default function DetailsPage() {
           p: 3,
         }}
       >
-        What
+        <Header label={data.owner.email} />
+        <Typography>{data.description}</Typography>
+        <Typography>Posiłki do podzielenia się:</Typography>
+        <>
+          {data.food.map((meal, id) => (
+            <li>
+              {id + 1}
+              <Meal key={meal.id} {...meal} />
+            </li>
+          ))}
+        </>
       </Paper>
+    </Box>
+  );
+}
+
+function Meal({ available, name, description, image, reserved, id }: Food) {
+  const [reserveFood, { isLoading }] = useReserveFoodMutation();
+
+  const handleClick = async () => {
+    const result = await reserveFood({ id: id.toString() });
+
+    if ("error" in result) {
+      toast("Oops... coś poszło nie tak");
+      return;
+    }
+
+    toast("Jedzonko zostało zarezerwowane!");
+  };
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Typography>Nazwa produktu: {name}</Typography>
+      <Typography>Opis produktu: {description}</Typography>
+      <img src={image} />
+      <>
+        {available && !reserved ? (
+          <Button disabled={isLoading} onClick={handleClick}>
+            Zarezerwuj
+          </Button>
+        ) : (
+          <Typography>Nie dostępne juz</Typography>
+        )}
+      </>
     </Box>
   );
 }
