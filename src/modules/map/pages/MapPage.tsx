@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Coords, useMapSwitcherContext } from "../../common/context/MapSwitcher";
 import { useGetAdvertisementsQuery } from "../../advertisement/api/advertisements";
 import { Link } from "react-router-dom";
+import { Header } from "../../common/components/Header/Header";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -76,7 +77,7 @@ export default function MapPage() {
 
 function Preview() {
   const { coords } = useMapSwitcherContext();
-  const { data } = useGetAdvertisementsQuery({
+  const { data, isLoading } = useGetAdvertisementsQuery({
     latLt: coords._northEast.lat.toString(),
     latGt: coords._southWest.lat.toString(),
     lngLt: coords._northEast.lng.toString(),
@@ -84,7 +85,38 @@ function Preview() {
     page: 1,
   });
 
-  return <p>{coords.toString()}</p>;
+  if (!data || isLoading) {
+     return <p>Ładowanie...</p>
+  }
+
+  return <Box
+      sx={{
+        padding: 3,
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+  >
+    <ul>
+      {data.map(function (element) {
+        return <li key={element.id}>
+          <Link to={`/advertisements/${element.id}`}>
+            <Header label={element.description}/>
+          </Link>
+          {element.food.map(function (food) {
+            return <div style={{display: "flex", borderBottom: "solid 1px #cccccc", padding: "10px 2px 5px 5px"}}>
+              <img src={food.image} style={{maxWidth:50}}  width={"100%"}/>
+              <div style={{display:"flex", flexDirection:"column", padding: "5px 0px 2px 3px", borderLeft: "solid 1px #cccccc"}}>
+                <h2>{food.name}</h2>
+                <p>{food.description}</p>
+              </div>
+            </div>
+          })}
+        </li>
+      })}
+    </ul>
+  </Box>
 }
 
 function MapElements() {
