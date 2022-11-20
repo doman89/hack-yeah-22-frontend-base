@@ -6,6 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuthenticateUserMutation } from "../api/Token";
 import { Header } from "../../common/components/Header/Header";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { store } from "../../common/store";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../../reducers/authReducer";
@@ -36,10 +38,13 @@ export default function LoginPage() {
 
   const handleFormSubmit = async (data: LoginForm) => {
     const result = await loginUser(data);
-
-    if (isValidResponse(result)) {
-      dispatch(setToken(result.data));
+    if (isApiResponse(result)) {
+        toast("Zalogowano pomyślnie.");
+        dispatch(setToken(result.data));
+        // @TODO dodać przekierowanie po logowaniu
+        return;
     }
+    toast("Błędne dane logowania.");
 
     console.log(result);
   };
@@ -82,6 +87,6 @@ export default function LoginPage() {
   );
 }
 
-function isValidResponse(response: any): response is { data: { token: string } } {
+function isApiResponse(response:any):response is {data:{token: string}} {
   return Boolean(response?.data?.token);
 }

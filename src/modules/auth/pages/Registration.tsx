@@ -2,10 +2,12 @@ import { Box, Button, Paper } from "@mui/material";
 import { useForm, FormProvider } from "react-hook-form";
 import { FormInput } from "../../common/components/FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
+import 'react-toastify/dist/ReactToastify.css';
 
 import * as yup from "yup";
 import { useRegisterUserMutation } from "../api/Registration";
 import { Header } from "../../common/components/Header/Header";
+import {toast} from "react-toastify";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -48,8 +50,13 @@ export default function RegisterPage() {
     const { repeatedPassword, ...restData } = data;
 
     const result = await registerUser(restData);
-
-    console.log(result);
+    if (isApiResponse(result)) {
+      if(result.data.message === 'OK, created') {
+        toast("Rejestracja zakończona pomyślnie.");
+        return;
+      }
+      toast("Błąd podczas rejestracji.");
+    }
   };
 
   return (
@@ -99,4 +106,8 @@ export default function RegisterPage() {
       </FormProvider>
     </Box>
   );
+}
+
+function isApiResponse(response:any):response is {data: {message: string}} {
+  return Boolean(response?.data?.message);
 }
