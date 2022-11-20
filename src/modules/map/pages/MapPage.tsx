@@ -138,7 +138,7 @@ function Preview() {
                     >
                       <h2>{food.name}</h2>
                       <p>{food.description}</p>
-                      <small style={{color: food.available ? '#27c41e' : '#cccccc'}}>{food.available ? "Dostępne" : "Niedostępne"}</small>
+                      <small style={{color: food.available ? '#27c41e' : '#855252'}}>{food.available ? "Dostępne" : "Niedostępne"}</small>
                     </div>
                   </div>
                 );
