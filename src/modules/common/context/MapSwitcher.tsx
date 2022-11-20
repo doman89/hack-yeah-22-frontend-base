@@ -1,6 +1,8 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 
 type MapSwitcherContext = {
+  coords: Coords;
+  setCoords: Dispatch<SetStateAction<Coords>>;
   isMapActive: boolean;
   toggleMap: (state?: boolean) => void;
 };
@@ -9,17 +11,33 @@ type MApSwitcherProviderProps = {
   children: ReactNode;
 };
 
+type Coord = {
+  lat: number;
+  lng: number;
+};
+
+export type Coords = {
+  _southWest: Coord;
+  _northEast: Coord;
+};
+
 const MapSwitcherCtx = createContext<MapSwitcherContext | null>(null);
 
 export function MapSwitcherProvider({ children }: MApSwitcherProviderProps) {
   const [isMapActive, setIsMapActive] = useState(false);
+  const [coords, setCoords] = useState<Coords>({
+    _northEast: { lat: 0, lng: 0 },
+    _southWest: { lat: 0, lng: 0 },
+  });
 
   const toggleMap = (state?: boolean) => {
     setIsMapActive(prev => state ?? !prev);
   };
 
   return (
-    <MapSwitcherCtx.Provider value={{ isMapActive, toggleMap }}>{children}</MapSwitcherCtx.Provider>
+    <MapSwitcherCtx.Provider value={{ coords, isMapActive, setCoords, toggleMap }}>
+      {children}
+    </MapSwitcherCtx.Provider>
   );
 }
 
