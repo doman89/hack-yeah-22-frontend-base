@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { useRegisterUserMutation } from "../api/Registration";
 import { Header } from "../../common/components/Header/Header";
 import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -45,6 +46,7 @@ export default function RegisterPage() {
   });
 
   const { handleSubmit } = form;
+  const history = useNavigate();
 
   const handleFormSubmit = async (data: RegisterForm) => {
     const { repeatedPassword, ...restData } = data;
@@ -53,6 +55,7 @@ export default function RegisterPage() {
     if (isApiResponse(result)) {
       if(result.data.message === 'OK, created') {
         toast("Rejestracja zakończona pomyślnie.");
+        history("/login");
         return;
       }
       toast("Błąd podczas rejestracji.");
