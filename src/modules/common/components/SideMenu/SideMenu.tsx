@@ -15,7 +15,7 @@ export function SideMenu() {
         Strona logowania
       </SideMenuButton>
       <SideMenuButton component={Link} to="/map">
-        Google Map
+        Mapa
       </SideMenuButton>
       <SideMenuButton component={Link} to="/advertisement">
         Advertisement
@@ -28,7 +28,7 @@ const SideBar = styled(
   "div",
   {},
 )<{ isActive: boolean }>(({ isActive, theme }) => ({
-  zIndex: 1000,
+  zIndex: 500000,
   display: "none",
   flexDirection: "column",
   justifyContent: "flex-end",
