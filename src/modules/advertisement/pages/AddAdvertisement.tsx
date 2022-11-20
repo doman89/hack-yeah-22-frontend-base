@@ -117,12 +117,12 @@ function RepeatableForm({form, base64}: RepeatableFormProps) {
                                 key={`name.${field.id}`}
                                 formValueName={`food.${index}.name` as any}
                                 label="Nazwa"
-                                width={600}
+                                width={300}
                             />
                             <FormInput<FoodType>
                                 key={`desc.${field.id}`}
                                 label="Opis"
-                                width={600}
+                                width={300}
                                 formValueName={`food.${index}.description` as any}
                             />
 
@@ -131,7 +131,7 @@ function RepeatableForm({form, base64}: RepeatableFormProps) {
                                 type="date"
                                 formValueName={`food.${index}.dueDate` as any}
                                 label="Termin ważności"
-                                width={600}
+                                width={300}
                             />
                             <div style={{display:"none"}}>
                             <FormInput<FoodType>
@@ -139,7 +139,7 @@ function RepeatableForm({form, base64}: RepeatableFormProps) {
                                 type="text"
                                 formValueName={`food.${index}.image` as any}
                                 label="obraz"
-                                width={600}
+                                width={300}
                             />
                             <FormInput<FoodType>
                                 key={`_id.${field.id}`}
