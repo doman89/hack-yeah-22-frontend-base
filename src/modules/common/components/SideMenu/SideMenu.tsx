@@ -1,10 +1,13 @@
 import { styled } from "@mui/material";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useSideMenuContext } from "../../context/SideMenu";
+import { RootState } from "../../store";
 import { SideMenuButton } from "../SideMenuButton/SideMenuButton";
 
 export function SideMenu() {
   const { isSideMenuActive } = useSideMenuContext();
+  const bearerToken = useSelector((state: RootState) => state.authReducer.authUser.token);
 
   return (
     <SideBar isActive={isSideMenuActive}>
@@ -14,12 +17,18 @@ export function SideMenu() {
       <SideMenuButton component={Link} to="/login">
         Strona logowania
       </SideMenuButton>
-      <SideMenuButton component={Link} to="/map">
-        Mapa
-      </SideMenuButton>
-      <SideMenuButton component={Link} to="/advertisement">
-        Advertisement
-      </SideMenuButton>
+      <>
+        {bearerToken ? (
+          <>
+            <SideMenuButton component={Link} to="/map">
+              Mapa
+            </SideMenuButton>
+            <SideMenuButton component={Link} to="/advertisement">
+              Advertisement
+            </SideMenuButton>
+          </>
+        ) : null}
+      </>
     </SideBar>
   );
 }

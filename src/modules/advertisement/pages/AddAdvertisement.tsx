@@ -19,6 +19,8 @@ import { FormInput } from "../../common/components/FormInput";
 import { Header } from "../../common/components/Header/Header";
 import { usePostAdvertisementMutation } from "../api/advertisements";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "../../common/store";
 
 const validationSchema = yup.object().shape({
   description: yup.string().min(8, "Opis minimum 8 znaków"),
@@ -179,6 +181,14 @@ function RepeatableForm({ form, base64 }: RepeatableFormProps) {
 
 export default function AddAdvertisementPage() {
   const [postAdvertisement, { isLoading, isError }] = usePostAdvertisementMutation();
+  const bearerToken = useSelector((state: RootState) => state.authReducer.authUser.token);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!bearerToken) {
+      navigate("/login");
+    }
+  }, [bearerToken]);
 
   const form = useForm<AdvertisementForm>({
     defaultValues: {
