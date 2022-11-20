@@ -14,4 +14,5 @@ const HeaderWrapper = styled("h1")(({ theme }) => ({
   borderBottom: "solid 1px #E8E8E8",
   margin: theme.spacing(0, 0, 2, 1),
   fontSize: "30px",
+  wordBreak: "break-all"
 }));

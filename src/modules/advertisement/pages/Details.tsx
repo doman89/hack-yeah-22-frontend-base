@@ -34,13 +34,13 @@ export default function DetailsPage() {
         <Header label={data.owner.email} />
         <Typography>{data.description}</Typography>
         <Typography>Posiłki do podzielenia się:</Typography>
-        <>
+        <ul>
           {data.food.map((meal, id) => (
             <li>
               <Meal key={meal.id} {...meal} />
             </li>
           ))}
-        </>
+        </ul>
       </Paper>
     </Box>
   );
@@ -61,10 +61,10 @@ function Meal({ available, name, description, image, reserved, id }: Food) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", border: "solid 1px #cccccc" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", borderBottom: "solid 1px #cccccc" }}>
       <Typography>Nazwa produktu: {name}</Typography>
       <Typography>Opis produktu: {description}</Typography>
-      <img src={image} width={"100%"} style={{maxWidth:"400", margin: "10px 0 10px 0"}} height="auto" />
+      <img src={image} width={"80%"} style={{ margin: "10px 0 10px 0"}} height="auto" />
       <>
         {available && !reserved ? (
           <Button disabled={isLoading} onClick={handleClick}>
