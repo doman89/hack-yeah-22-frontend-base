@@ -1,12 +1,13 @@
 import { api } from "../../common/api/api";
 
-type Food = {
+export type Food = {
+  available?: boolean;
   id: number;
   name: string;
   description?: string;
   image: string;
   dueDate: string;
-  reservation: string;
+  reserved?: boolean;
 };
 
 type FoodOwner = {
