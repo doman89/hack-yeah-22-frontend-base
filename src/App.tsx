@@ -17,6 +17,7 @@ import MapPage from "./modules/map/pages/MapPage";
 import RegisterPage from "./modules/auth/pages/Registration";
 import AddAdvertisementPage from "./modules/advertisement/pages/AddAdvertisement";
 import { MapSwitcherProvider } from "./modules/common/context/MapSwitcher";
+import DetailsPage from "./modules/advertisement/pages/Details";
 
 export const App = () => (
   <BrowserRouter>
@@ -47,10 +48,12 @@ export const App = () => (
             </SideMenuProvider>
             <Content>
               <Routes>
+                <Route element={<MapPage />} path="/" />
                 <Route element={<LoginPage />} path="/login" />
                 <Route element={<MapPage />} path="/map" />
                 <Route element={<RegisterPage />} path="/register" />
                 <Route element={<AddAdvertisementPage />} path="/advertisement" />
+                <Route element={<DetailsPage />} path="/advertisements/:id" />
               </Routes>
             </Content>
           </MapSwitcherProvider>
