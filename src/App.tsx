@@ -19,6 +19,8 @@ import AddAdvertisementPage from "./modules/advertisement/pages/AddAdvertisement
 import { MapSwitcherProvider } from "./modules/common/context/MapSwitcher";
 import DetailsPage from "./modules/advertisement/pages/Details";
 
+import "react-toastify/dist/ReactToastify.css";
+
 export const App = () => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
