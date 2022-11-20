@@ -19,6 +19,8 @@ import AddAdvertisementPage from "./modules/advertisement/pages/AddAdvertisement
 import { MapSwitcherProvider } from "./modules/common/context/MapSwitcher";
 import DetailsPage from "./modules/advertisement/pages/Details";
 
+import "react-toastify/dist/ReactToastify.css";
+
 export const App = () => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
@@ -48,7 +50,7 @@ export const App = () => (
             </SideMenuProvider>
             <Content>
               <Routes>
-                <Route element={<MapPage />} path="/" />
+                <Route element={<LoginPage />} path="/" />
                 <Route element={<LoginPage />} path="/login" />
                 <Route element={<MapPage />} path="/map" />
                 <Route element={<RegisterPage />} path="/register" />
