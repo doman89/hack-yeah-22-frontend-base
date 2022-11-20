@@ -199,12 +199,12 @@ export default function AddAdvertisementPage() {
     });
     const result = await postAdvertisement(data);
     if (isApiResponse(result)) {
-      toast("Oferta dodana.");
-      history("/");
+      toast.success("Oferta dodana.");
+      history("/map");
       return;
     }
 
-    toast("Błąd podczas dodawania oferty.");
+    toast.error("Błąd podczas dodawania oferty.");
   };
 
   return (

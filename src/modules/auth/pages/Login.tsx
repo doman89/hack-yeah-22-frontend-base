@@ -41,12 +41,12 @@ export default function LoginPage() {
   const handleFormSubmit = async (data: LoginForm) => {
     const result = await loginUser(data);
     if (isApiResponse(result)) {
-        toast("Zalogowano pomyślnie.");
+        toast.success("Zalogowano pomyślnie.");
         dispatch(setToken(result.data));
         history("/map");
         return;
     }
-    toast("Błędne dane logowania.");
+    toast.error("Błędne dane logowania.");
 
     console.log(result);
   };

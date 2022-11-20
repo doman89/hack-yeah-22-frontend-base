@@ -54,11 +54,11 @@ export default function RegisterPage() {
     const result = await registerUser(restData);
     if (isApiResponse(result)) {
       if(result.data.message === 'OK, created') {
-        toast("Rejestracja zakończona pomyślnie.");
+        toast.success("Rejestracja zakończona pomyślnie.");
         history("/login");
         return;
       }
-      toast("Błąd podczas rejestracji.");
+      toast.error("Błąd podczas rejestracji.");
     }
   };
 
