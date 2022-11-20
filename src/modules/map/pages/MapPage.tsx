@@ -138,6 +138,7 @@ function Preview() {
                     >
                       <h2>{food.name}</h2>
                       <p>{food.description}</p>
+                      <small>{food.available ? "Dostępne" : "Niedostępne"}</small>
                     </div>
                   </div>
                 );
