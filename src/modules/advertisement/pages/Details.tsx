@@ -37,7 +37,6 @@ export default function DetailsPage() {
         <>
           {data.food.map((meal, id) => (
             <li>
-              {id + 1}
               <Meal key={meal.id} {...meal} />
             </li>
           ))}
@@ -62,10 +61,10 @@ function Meal({ available, name, description, image, reserved, id }: Food) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", border: "solid 1px #cccccc" }}>
       <Typography>Nazwa produktu: {name}</Typography>
       <Typography>Opis produktu: {description}</Typography>
-      <img src={image} width={300} height="auto" />
+      <img src={image} width={"100%"} style={{maxWidth:"400", margin: "10px 0 10px 0"}} height="auto" />
       <>
         {available && !reserved ? (
           <Button disabled={isLoading} onClick={handleClick}>
@@ -75,6 +74,7 @@ function Meal({ available, name, description, image, reserved, id }: Food) {
           <Typography>Nie dostępne juz</Typography>
         )}
       </>
+
     </Box>
   );
 }
