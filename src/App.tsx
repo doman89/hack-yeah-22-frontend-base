@@ -48,7 +48,7 @@ export const App = () => (
             </SideMenuProvider>
             <Content>
               <Routes>
-                <Route element={<MapPage />} path="/" />
+                <Route element={<LoginPage />} path="/" />
                 <Route element={<LoginPage />} path="/login" />
                 <Route element={<MapPage />} path="/map" />
                 <Route element={<RegisterPage />} path="/register" />
