@@ -1,8 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Coords, useMapSwitcherContext } from "../../common/context/MapSwitcher";
 import { useGetAdvertisementsQuery } from "../../advertisement/api/advertisements";
+import { Link } from "react-router-dom";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -52,8 +53,13 @@ export default function MapPage() {
           {data
             ? data.map(data => (
                 <Marker key={data.id} position={[data.lat, data.lng] as [number, number]}>
-                  <Popup>
-                    <span>{data.description}</span>
+                  <Popup maxWidth={600}>
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <span>{data.description}</span>
+                      <Button component={Link} to={`/advertisements/${data.id}`}>
+                        Idź do szczegółów
+                      </Button>
+                    </Box>
                   </Popup>
                 </Marker>
               ))
