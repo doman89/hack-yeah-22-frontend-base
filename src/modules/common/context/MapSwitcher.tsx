@@ -24,7 +24,7 @@ export type Coords = {
 const MapSwitcherCtx = createContext<MapSwitcherContext | null>(null);
 
 export function MapSwitcherProvider({ children }: MApSwitcherProviderProps) {
-  const [isMapActive, setIsMapActive] = useState(false);
+  const [isMapActive, setIsMapActive] = useState(true);
   const [coords, setCoords] = useState<Coords>({
     _northEast: { lat: 0, lng: 0 },
     _southWest: { lat: 0, lng: 0 },

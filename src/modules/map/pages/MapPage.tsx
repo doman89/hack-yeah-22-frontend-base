@@ -1,10 +1,28 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Coords, useMapSwitcherContext } from "../../common/context/MapSwitcher";
+import { useGetAdvertisementsQuery } from "../../advertisement/api/advertisements";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+  const { isMapActive, coords: visibleCoords } = useMapSwitcherContext();
+  const { data } = useGetAdvertisementsQuery(
+    {
+      latLt: visibleCoords._northEast.lat.toString(),
+      latGt: visibleCoords._southWest.lat.toString(),
+      lngLt: visibleCoords._northEast.lng.toString(),
+      lngGt: visibleCoords._southWest.lng.toString(),
+      page: 1,
+    },
+    {
+      skip:
+        !visibleCoords._northEast.lat &&
+        !visibleCoords._southWest.lat &&
+        !visibleCoords._northEast.lng &&
+        !visibleCoords._southWest.lng,
+    },
+  );
 
   useEffect(() => {
     window.navigator.geolocation.getCurrentPosition(
@@ -14,28 +32,32 @@ export default function MapPage() {
   }, []);
 
   if (coords === null) {
-    return null;
+    return <p>"Tutaj powinien być fancy loading state no ale to MVP :)"</p>;
+  }
+
+  if (!isMapActive) {
+    return <Preview />;
   }
 
   return (
     <Box sx={{ m: -4 }}>
       <MapContainer
         style={{ height: "calc(100vh - 50px)" }}
-        center={coords ? [coords?.latitude, coords?.longitude] : [0, 0]}
+        center={[coords.latitude, coords.longitude]}
         zoom={13}
         scrollWheelZoom
       >
         <MapElements />
         <>
-          {[
-            { coords: [50.0647, 19.945], message: "Podzielę się! 3 porcje gulaszu do oddania :)" },
-          ].map(({ coords, message }) => (
-            <Marker key={coords.toString()} position={coords as any}>
-              <Popup>
-                <span>{message}</span>
-              </Popup>
-            </Marker>
-          ))}
+          {data
+            ? data.map(data => (
+                <Marker key={data.id} position={[data.lat, data.lng] as [number, number]}>
+                  <Popup>
+                    <span>{data.description}</span>
+                  </Popup>
+                </Marker>
+              ))
+            : null}
         </>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -46,9 +68,26 @@ export default function MapPage() {
   );
 }
 
+function Preview() {
+  const { coords } = useMapSwitcherContext();
+  const { data } = useGetAdvertisementsQuery({
+    latLt: coords._northEast.lat.toString(),
+    latGt: coords._southWest.lat.toString(),
+    lngLt: coords._northEast.lng.toString(),
+    lngGt: coords._southWest.lng.toString(),
+    page: 1,
+  });
+
+  return <p>{coords.toString()}</p>;
+}
+
 function MapElements() {
   const map = useMap();
   const { setCoords } = useMapSwitcherContext();
+
+  useEffect(() => {
+    setCoords(map.getBounds() as unknown as Coords);
+  }, []);
 
   useMapEvents({
     zoom: () => setCoords(map.getBounds() as unknown as Coords),
