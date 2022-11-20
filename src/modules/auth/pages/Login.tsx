@@ -12,6 +12,7 @@ import { store } from "../../common/store";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../../reducers/authReducer";
 import { boolean } from "yup/lib/locale";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object().shape({
   email: yup.string().max(255).nullable().required().email(),
@@ -35,13 +36,14 @@ export default function LoginPage() {
   });
 
   const { handleSubmit } = form;
+  const history = useNavigate();
 
   const handleFormSubmit = async (data: LoginForm) => {
     const result = await loginUser(data);
     if (isApiResponse(result)) {
         toast("Zalogowano pomyślnie.");
         dispatch(setToken(result.data));
-        // @TODO dodać przekierowanie po logowaniu
+        history("/map");
         return;
     }
     toast("Błędne dane logowania.");
