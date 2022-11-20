@@ -37,6 +37,22 @@ type GetAdvertisementQueryResponse = {
   updatedAt: string;
 };
 
+type GetAdvertisementsQuery = {
+  page: number;
+  latBetween: string;
+  latGt: string;
+  latGte: string;
+  latLt: string;
+  latLte: string;
+  lngBetween: string;
+  lngGt: string;
+  lngGte: string;
+  lngLt: string;
+  lngLte: string;
+};
+
+type GetAdvertisementsQueryResponse = GetAdvertisementQueryResponse[];
+
 const extendedApi = api.injectEndpoints({
   endpoints: build => ({
     postAdvertisement: build.mutation<PostAdvertisementQueryResponse, PostAdvertisementQuery>({
@@ -48,11 +64,34 @@ const extendedApi = api.injectEndpoints({
     }),
     getAdvertisement: build.query<GetAdvertisementQueryResponse, GetAdvertisementQuery>({
       query: ({ id }) => ({
-        url: `/api/advertisement/${id}`,
+        url: `/api/advertisements/${id}`,
+        method: "GET",
+      }),
+    }),
+    getAdvertisements: build.query<GetAdvertisementsQueryResponse, GetAdvertisementsQuery>({
+      query: ({
+        page,
+        latBetween,
+        latGt,
+        latGte,
+        latLt,
+        latLte,
+        lngBetween,
+        lngGt,
+        lngGte,
+        lngLt,
+        lngLte,
+      }) => ({
+        url: `/api/advertisements?page=${page}&lat[Between]=${latBetween}&lat[gt]=${latGt}&lat[gte]=${latGte}&lat[lt]=${latLt}&lat[lte]=${latLte}&lng[between]=${lngBetween}&lng[gt]=${lngGt}&lng[gte]=${lngGte}&lng[lt]=${lngLt}&lng[lte]=${lngLte}`,
         method: "GET",
       }),
     }),
   }),
 });
 
-export const { usePostAdvertisementMutation, useGetAdvertisementQuery } = extendedApi;
+export const {
+  usePostAdvertisementMutation,
+  useGetAdvertisementQuery,
+  useGetAdvertisementsQuery,
+  useLazyGetAdvertisementsQuery,
+} = extendedApi;
