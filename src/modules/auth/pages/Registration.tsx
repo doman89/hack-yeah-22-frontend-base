@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
 import { useRegisterUserMutation } from "../api/Registration";
+import {Header} from "../../common/components/Header/Header";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -55,6 +56,10 @@ export default function RegisterPage() {
     <Box
       sx={{
         padding: 3,
+        width:"100%",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <FormProvider {...form}>
@@ -63,14 +68,18 @@ export default function RegisterPage() {
             p: 3,
           }}
         >
+          <Header label={"Rejestracja"}></Header>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <FormInput<RegisterForm> formValueName="email" label="Email" />
-            <FormInput<RegisterForm> formValueName="password" label="Hasło" />
-            <FormInput<RegisterForm> formValueName="repeatedPassword" label="Powtórz hasło" />
-            <FormInput<RegisterForm> formValueName="phonenumber" label="Numer telefon" />
-            <Button disabled={isLoading} type="submit">
-              Zarejestruj
-            </Button>
+            <FormInput<RegisterForm> formValueName="email" width={300} label="Email" />
+            <FormInput<RegisterForm> formValueName="password" width={300} label="Hasło" />
+            <FormInput<RegisterForm> formValueName="repeatedPassword" width={300} label="Powtórz hasło" />
+            <FormInput<RegisterForm> formValueName="phonenumber" width={300} label="Numer telefonu" />
+
+            <Box sx={{width:"100%", display:"flex", flexDirection:"row-reverse"}}>
+              <Button disabled={isLoading} type="submit" sx={{marginTop: "10px"}}>
+                Zarejestruj
+               </Button>
+            </Box>
           </form>
         </Paper>
       </FormProvider>

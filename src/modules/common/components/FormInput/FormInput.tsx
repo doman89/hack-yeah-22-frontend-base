@@ -8,6 +8,7 @@ type FormInputProps<T> = {
   formValueName: Path<T>;
   label?: ReactNode;
   placeholder?: string;
+  width?: number
 };
 
 export function FormInput<T extends FieldValues>({
@@ -15,6 +16,7 @@ export function FormInput<T extends FieldValues>({
   isDisabled,
   label,
   placeholder,
+  width,
 }: FormInputProps<T>) {
   const { control } = useFormContext<T>();
   const { field, formState } = useController({
@@ -30,7 +32,7 @@ export function FormInput<T extends FieldValues>({
       sx={{
         display: "flex",
         flexDirection: "column",
-        width: 100,
+        width: width ?? 200,
         padding: 1,
       }}
     >

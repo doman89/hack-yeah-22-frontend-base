@@ -3,6 +3,9 @@
   margin: 0;
   padding: 0;
 }
+html,body,h1,h2,h3,h4 {
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif
+}
 
 .Toastify__toast-container {
   width: "unset";
