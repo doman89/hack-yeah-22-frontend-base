@@ -133,6 +133,7 @@ function RepeatableForm({form, base64}: RepeatableFormProps) {
                                 label="Termin ważności"
                                 width={600}
                             />
+                            <div style={{display:"none"}}>
                             <FormInput<FoodType>
                                 key={`image.${field.id}`}
                                 type="text"
@@ -140,13 +141,14 @@ function RepeatableForm({form, base64}: RepeatableFormProps) {
                                 label="obraz"
                                 width={600}
                             />
-
                             <FormInput<FoodType>
                                 key={`_id.${field.id}`}
                                 type="hidden"
                                 defaultValue={`${field.id}`}
                                 formValueName={`food.${index}._id` as any}
                             />
+                            </div>
+
                             <Input
                                 id="originalFileName"
                                 type="file"
