@@ -11,7 +11,7 @@ const extendedApi = api.injectEndpoints({
     reserveFood: build.mutation<PostReserveFoodQueryResponse, PostReserveFoodQuery>({
       query: body => ({
         url: `/api/food/${body.id}/reserve`,
-        method: "POST",
+        method: "PUT",
       }),
     }),
   }),
