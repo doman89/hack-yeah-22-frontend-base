@@ -4,18 +4,22 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
-    Button,
+    Button, Input,
     Paper,
     Typography,
 } from "@mui/material";
-import { DateTime } from "luxon";
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import { FormProvider, useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom"
 
 import { FormInput } from "../../common/components/FormInput";
 import { Header } from "../../common/components/Header/Header";
 import { usePostAdvertisementMutation } from "../api/advertisements";
+import { Toast } from "react-toastify/dist/components";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object().shape({
     description: yup.string().min(8, "Opis minimum 8 znaków"),
@@ -26,6 +30,7 @@ type FoodType = {
     description: string;
     image: string;
     dueDate: string;
+    _id: string;
 };
 
 type AdvertisementForm = {
@@ -36,9 +41,14 @@ type AdvertisementForm = {
     food: FoodType[];
 };
 
-const EMPTY_FOOD: FoodType = { description: "", dueDate: "", image: "", name: "" };
+type RepeatableFormProps = {
+    form: UseFormReturn<AdvertisementForm>;
+    base64: React.MutableRefObject<Record<string, string>>
+}
 
-function RepeatableForm(form: UseFormReturn<AdvertisementForm>) {
+const EMPTY_FOOD: FoodType = { description: "", dueDate: "", image: "", name: "", _id:"" };
+
+function RepeatableForm({form, base64}: RepeatableFormProps) {
     const { control, register } = form;
     const { fields, append, remove } = useFieldArray({
         control, // control props comes from useForm (optional: if you are using FormContext)
@@ -62,10 +72,29 @@ function RepeatableForm(form: UseFormReturn<AdvertisementForm>) {
 
     const AddButton = () => (
         <Button sx={{ marginTop: "10px" }} onClick={() => handleNewRow()}>
-            Dodaj kolejne żarcie do oddania
+            Dodaj kolejną pozycje do oddania
         </Button>
     );
+    const handleFileRead = async (event: React.ChangeEvent<HTMLInputElement>, id: string) => {
+        const file = event?.target?.files?.[0];
+        if (file) {
+            Object.assign(base64.current, {[id]: await convertBase64(file)})
+        }
+    };
+    const convertBase64 = (file: Blob) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
 
+    // @ts-ignore
     return (
         <>
             {fields.map((field, index) => (
@@ -106,9 +135,26 @@ function RepeatableForm(form: UseFormReturn<AdvertisementForm>) {
                             />
                             <FormInput<FoodType>
                                 key={`image.${field.id}`}
+                                type="text"
                                 formValueName={`food.${index}.image` as any}
-                                label="Grafika w BASE64"
+                                label="obraz"
                                 width={600}
+                            />
+
+                            <FormInput<FoodType>
+                                key={`_id.${field.id}`}
+                                type="hidden"
+                                defaultValue={`${field.id}`}
+                                formValueName={`food.${index}._id` as any}
+                            />
+                            <Input
+                                id="originalFileName"
+                                type="file"
+                                inputProps={{ accept: 'image/*, .xlsx, .xls, .csv, .pdf, .pptx, .pptm, .ppt' }}
+                                required
+                                name="originalFileName"
+                                onChange={(e:any) => handleFileRead(e, field.id)}
+                                size="small"
                             />
                         </AccordionDetails>
                         <Box sx={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
@@ -137,20 +183,27 @@ export default function AddAdvertisementPage() {
         defaultValues: {
             lat: 51,
             lng: 21,
-            image: "",
             description: "",
             food: [EMPTY_FOOD],
         },
         resolver: yupResolver(validationSchema),
     });
 
+    const history = useNavigate();
+    const base64 = useRef<Record<string,string>>({});
     const { handleSubmit } = form;
     const handleFormSubmit = async (data: AdvertisementForm) => {
         data.food.forEach(function(food:FoodType) {
-            food.dueDate = DateTime.fromFormat(food.dueDate, 'dd/mm/yyyy').toFormat('yyyy-mm-dd');
+            food.image = base64.current[food._id];
         });
         const result = await postAdvertisement(data);
-        console.log(result);
+        if (isApiResponse(result)) {
+            toast("Oferta dodana.");
+            history('/');
+            return;
+        }
+
+        toast("Błąd podczas dodawania oferty.");
     };
 
     return (
@@ -172,10 +225,9 @@ export default function AddAdvertisementPage() {
                     <Header label="Advertisement" />
                     <form onSubmit={handleSubmit(handleFormSubmit)}>
                         <FormInput<AdvertisementForm> formValueName="description" label="description" width={300} />
-                        <FormInput<AdvertisementForm> formValueName="image" label="image base64" width={300} />
                         <FormInput<AdvertisementForm> formValueName="lat" label="Lat" width={300} />
                         <FormInput<AdvertisementForm> formValueName="lng" label="Lng" width="100%" />
-                        <RepeatableForm {...form} />
+                        <RepeatableForm form={form} base64={base64} />
 
                         <Button sx={{ marginTop: "10px" }} disabled={isLoading} color="primary" type="submit">
                             Wyślij formularz
@@ -186,3 +238,8 @@ export default function AddAdvertisementPage() {
         </Box>
     );
 }
+
+function isApiResponse(response:any):response is {data:{lng: number}} {
+    return Boolean(response?.data?.lng);
+}
+

@@ -1,7 +1,7 @@
 import { Box, Input, Typography } from "@mui/material";
 import { FieldError, FieldValues, Path, useController, useFormContext } from "react-hook-form";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 type FormInputProps<T> = {
   isDisabled?: boolean;
@@ -10,6 +10,7 @@ type FormInputProps<T> = {
   placeholder?: string;
   width?: number | string;
   type?: string;
+  defaultValue?: string;
 };
 
 export function FormInput<T extends FieldValues>({
@@ -18,13 +19,21 @@ export function FormInput<T extends FieldValues>({
   label,
   placeholder,
   width,
+  defaultValue,
   type,
 }: FormInputProps<T>) {
-  const { control } = useFormContext<T>();
+  const { control, setValue } = useFormContext<T>();
   const { field, formState } = useController({
     name: formValueName,
     control,
   });
+
+  useEffect(() => {
+      if (type === "hidden") {
+          // @ts-ignore
+          setValue(formValueName, defaultValue ?? "")
+      }
+  }, [])
 
   const isError = Boolean(formState.errors[formValueName]);
 
