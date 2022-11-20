@@ -1,10 +1,11 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Coords, useMapSwitcherContext } from "../../common/context/MapSwitcher";
 import { useGetAdvertisementsQuery } from "../../advertisement/api/advertisements";
 import { Link } from "react-router-dom";
 import { Header } from "../../common/components/Header/Header";
+import _ from "lodash";
 
 export default function MapPage() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -102,7 +103,7 @@ function Preview() {
       {data.map(function (element) {
         return <li key={element.id}>
           <Link to={`/advertisements/${element.id}`}>
-            <Header label={element.description}/>
+              <h2 style={{padding: "6px 6px 3px 3px", fontSize: "15px", margin: "10px 0 2px 0"}}>{element.description}</h2>
           </Link>
           {element.food.map(function (food) {
             return <div style={{display: "flex", borderBottom: "solid 1px #cccccc", padding: "10px 2px 5px 5px"}}>
@@ -122,14 +123,17 @@ function Preview() {
 function MapElements() {
   const map = useMap();
   const { setCoords } = useMapSwitcherContext();
-
+  const setNewPosition = useMemo(() => {
+      const fn = () => setCoords(map.getBounds() as unknown as Coords);
+      return _.debounce(fn, 1000)
+  }, []);
   useEffect(() => {
-    setCoords(map.getBounds() as unknown as Coords);
+      setNewPosition();
   }, []);
 
   useMapEvents({
-    zoom: () => setCoords(map.getBounds() as unknown as Coords),
-    move: () => setCoords(map.getBounds() as unknown as Coords),
+    zoom: setNewPosition,
+    move: setNewPosition,
   });
 
   return null;
