@@ -1,3 +1,5 @@
+import { MicNone } from "@mui/icons-material";
+import { darken } from "@mui/material";
 import { ElementType, ReactNode } from "react";
 import styled from "styled-components";
 import { useSideMenuContext } from "../../context/SideMenu";
@@ -31,13 +33,19 @@ export function SideMenuButton({
 
 const Wrapper = styled("button")(({ theme }) => ({
   width: "100%",
-  height: 48,
-  border: "1px solid #ffffff",
+  height: "4rem",
+  textDecoration: "none",
   color: "#ffffff",
   cursor: "pointer",
 
+  "&:first-of-type": {
+    padding: 0,
+  },
+
+  padding: "1rem",
+
   "&:hover": {
-    backgroundColor: "#aaaaaa",
+    backgroundColor: "#777777",
   },
 }));
 

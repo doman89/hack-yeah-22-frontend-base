@@ -8,7 +8,7 @@ type FormInputProps<T> = {
   formValueName: Path<T>;
   label?: ReactNode;
   placeholder?: string;
-  width?: number|string;
+  width?: number | string;
   type?: string;
 };
 

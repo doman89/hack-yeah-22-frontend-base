@@ -40,7 +40,7 @@ const SideBar = styled(
   maxWidth: 300,
   padding: theme.spacing(1, 0),
   backgroundColor: "#222222",
-  transition: "0.3s",
+  transition: "ease-in-out 0.3s",
   transform: "translateX(0)",
   ...(isActive && {
     boxShadow: "0 1px 4px rgb(0 0 0 / 16%), -3px 0px 3px 1px rgb(163 38 123 / 50%)",

@@ -257,8 +257,8 @@ rules:
         - composes
         - compose-with
       ignoreSelectors:
-        - ':export'
-        - '/^:import/'
+        - ":export"
+        - "/^:import/"
   rule-empty-line-before:
     - always
     - ignore:

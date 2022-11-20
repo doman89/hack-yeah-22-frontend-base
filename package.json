@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --mode=development",
     "build": "webpack --mode=production",
-    "checkts": "tsc"
+    "checkts": "tsc",
+    "prettier": "prettier -w ."
   },
   "repository": {
     "type": "git",

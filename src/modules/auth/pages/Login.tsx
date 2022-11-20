@@ -6,6 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuthenticateUserMutation } from "../api/Token";
 import { Header } from "../../common/components/Header/Header";
+import { store } from "../../common/store";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../../reducers/authReducer";
+import { boolean } from "yup/lib/locale";
 
 const validationSchema = yup.object().shape({
   email: yup.string().max(255).nullable().required().email(),
@@ -19,6 +23,7 @@ type LoginForm = {
 
 export default function LoginPage() {
   const [loginUser, { isLoading, isError }] = useAuthenticateUserMutation();
+  const dispatch = useDispatch();
   const form = useForm<LoginForm>({
     defaultValues: {
       email: "",
@@ -31,6 +36,10 @@ export default function LoginPage() {
 
   const handleFormSubmit = async (data: LoginForm) => {
     const result = await loginUser(data);
+
+    if (isValidResponse(result)) {
+      dispatch(setToken(result.data));
+    }
 
     console.log(result);
   };
@@ -71,4 +80,8 @@ export default function LoginPage() {
       </FormProvider>
     </Box>
   );
+}
+
+function isValidResponse(response: any): response is { data: { token: string } } {
+  return Boolean(response?.data?.token);
 }
