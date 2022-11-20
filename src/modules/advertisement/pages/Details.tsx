@@ -65,7 +65,7 @@ function Meal({ available, name, description, image, reserved, id }: Food) {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Typography>Nazwa produktu: {name}</Typography>
       <Typography>Opis produktu: {description}</Typography>
-      <img src={image} />
+      <img src={image} width={300} height="auto" />
       <>
         {available && !reserved ? (
           <Button disabled={isLoading} onClick={handleClick}>
